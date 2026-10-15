@@ -148,7 +148,7 @@ export default function Portfolio() {
         </div>
         <div className="shrink-0">
           <img
-            src="/photo.png"
+            src="/only_me.png"
             alt="Keerthana Sen"
             className="w-48 h-48 rounded-full object-cover border-2 border-orange-400"
             onError={e => { e.target.style.display = 'none' }}
