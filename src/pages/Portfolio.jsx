@@ -1,4 +1,12 @@
 import { useState, useRef } from 'react'
+import MoreProjects from './Projects'
+
+const xflowSteps = [
+  { label: 'Retrieve', text: 'Searches a vector-indexed policy corpus (ChromaDB) for the rules that apply to this request.' },
+  { label: 'Check', text: 'Pulls the live transaction data for the request, so the answer reflects what actually happened.' },
+  { label: 'Reason', text: 'A LangGraph agent compares the case against each rule, step by step.' },
+  { label: 'Explain', text: 'Returns a plain-language reason that points back to the policy it used.' },
+]
 
 const skills = [
   { category: 'Languages', items: 'Java, Python, SQL, React, JavaScript' },
@@ -11,12 +19,13 @@ const experience = [
   {
     company: 'SAP Labs India',
     role: 'Associate Software Developer',
-    period: 'Aug 2024 – Present',
+    period: 'Aug 2024 – July 2026',
     points: [
       'Developed and maintained Java Spring Boot microservices for enterprise SAP applications',
       'Wrote JUnit 5 & Kafka tests; biweekly multi-environment testing across staging, canary, PaaS, SaaS',
       'Built data models on SAP Datasphere; converted ADS views to Analytic Models',
     ],
+    skills: ['Java', 'Spring Boot', 'JUnit 5', 'Kafka', 'SAP Datasphere', 'SAP BTP'],
   },
   {
     company: 'NPPD Care',
@@ -25,6 +34,7 @@ const experience = [
     points: [
       "Conducted market research on India's health & wellness sector using Linear Regression to forecast trends",
     ],
+    skills: ['Market Research', 'Linear Regression', 'Trend Forecasting'],
   },
   {
     company: 'Feynn Labs',
@@ -33,6 +43,7 @@ const experience = [
     points: [
       'Applied ML techniques to real-world datasets; market segmentation using K-Means clustering',
     ],
+    skills: ['Machine Learning', 'K-Means Clustering', 'Market Segmentation'],
   },
 ]
 
@@ -96,7 +107,7 @@ const contactLinks = [
 export default function Portfolio() {
   const [deck, setDeck] = useState(projects)
   const [activeExp, setActiveExp] = useState(0)
-  const expRef = useRef(null)
+  const [step, setStep] = useState(0)
 
   function sendToBack() {
     setDeck(prev => {
@@ -105,167 +116,221 @@ export default function Portfolio() {
     })
   }
 
-  function handleExpScroll() {
-    const container = expRef.current
-    if (!container) return
-    const cardWidth = 290 + 16 // card width + gap
-    const index = Math.round(container.scrollLeft / cardWidth)
-    setActiveExp(Math.min(index, experience.length - 1))
-  }
-
-  function scrollToExp(i) {
-    const container = expRef.current
-    if (!container) return
-    container.scrollTo({ left: i * (290 + 16), behavior: 'smooth' })
-    setActiveExp(i)
-  }
 
   return (
     <div className="pt-16">
 
       {/* Home */}
-      <section id="home" className="max-w-3xl mx-auto px-6 py-16 flex items-center gap-12">
-        <div className="flex-1">
-          <p className="text-orange-500 font-medium mb-2 text-sm tracking-widest uppercase">Hi, I'm</p>
-          <h1 className="text-5xl font-bold mb-3 text-gray-900 leading-tight">Keerthana Sen</h1>
-          <p className="text-lg text-gray-600 mb-4">
+      <section
+        id="home"
+        className="max-w-6xl mx-auto px-6 md:px-10 py-12 md:py-20 grid md:grid-cols-2 items-center gap-10 md:gap-16"
+      >
+        <div className="order-2 md:order-1">
+          <p className="text-blue-600 font-medium mb-2 text-sm tracking-widest uppercase">Hi, I'm</p>
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 text-gray-900 leading-tight">
+            Keerthana Sen
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 mb-5">
             Associate Software Developer · Gen AI & LLM · Microservices
           </p>
-          <p className="text-gray-500 leading-relaxed mb-7 text-base max-w-md">
-            Powered by coffee and curiosity — I started with a fascination for how large systems talk to each other, and that curiosity became a BTech, an MTech at BITS Pilani, 
-            production microservices at SAP Labs, and somewhere along 
-            the way, a deep interest in building AI that can actually 
-            explain itself.
+          <p className="text-gray-500 leading-relaxed mb-8 text-base md:text-lg max-w-xl">
+            Powered by coffee and curiosity — I started with a fascination for how large systems talk to
+            each other, and that curiosity became a BTech, an MTech at BITS Pilani, production
+            microservices at SAP Labs, and somewhere along the way, a deep interest in building AI that
+            can actually explain itself.
           </p>
           <div className="flex gap-3">
-            <a href="#projects" className="bg-orange-500 text-white px-5 py-2.5 rounded-lg hover:bg-orange-400 transition font-medium text-sm">
+            <a href="#projects" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-500 transition font-medium">
               View Projects
             </a>
-            <a href="#contact" className="border border-gray-300 text-gray-600 px-5 py-2.5 rounded-lg hover:border-gray-400 hover:text-gray-900 transition font-medium text-sm">
+            <a href="#contact" className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:border-blue-400 hover:text-blue-600 transition font-medium">
               Contact Me
             </a>
           </div>
         </div>
-        <div className="shrink-0">
+
+        <div className="order-1 md:order-2 flex justify-center md:justify-end">
           <img
             src="/only_me.png"
             alt="Keerthana Sen"
-            className="w-48 h-48 rounded-full object-cover border-2 border-orange-400"
+            className="w-60 h-60 md:w-[35rem] md:h-[35rem] rounded-full object-cover"
             onError={e => { e.target.style.display = 'none' }}
           />
         </div>
       </section>
 
-      {/* About */}
-      <section id="about" className="border-t border-blue-100 max-w-3xl mx-auto px-6 py-12">
-        <p className="text-orange-500 text-sm tracking-widest uppercase mb-1">Background</p>
-        <h2 className="text-3xl font-bold mb-3 text-gray-900">About Me</h2>
-        <p className="text-gray-500 mb-8 leading-relaxed text-base max-w-xl">
-          BTech from Christ University, currently pursuing MTech at BITS Pilani.
-          I specialize in backend microservices and Gen AI systems, with hands-on
-          experience building production systems at SAP Labs.
-        </p>
 
-        <h3 className="text-base font-semibold mb-3 text-gray-800 uppercase tracking-wider">Skills</h3>
-        <div className="grid grid-cols-1 gap-3 mb-10">
-          {skills.map(s => (
-            <div key={s.category} className="flex gap-4">
-              <span className="text-gray-400 w-36 shrink-0 text-sm pt-0.5">{s.category}</span>
-              <span className="text-gray-700 text-sm">{s.items}</span>
-            </div>
-          ))}
+      {/* About + Experience */}
+      <section
+        id="about"
+        className="border-t border-blue-100 max-w-6xl mx-auto px-6 md:px-10 py-16 grid md:grid-cols-2 gap-12 md:gap-16"
+      >
+        {/* LEFT: reserved for the animation (later) */}
+        <div className="hidden md:block">
+          <div className="sticky top-28 h-[30rem] rounded-3xl border border-blue-100 bg-blue-50 flex items-center justify-center text-blue-300 text-sm">
+            Animation goes here
+          </div>
         </div>
 
-        <h3 className="text-base font-semibold mb-4 text-gray-800 uppercase tracking-wider">Experience</h3>
-        <div
-          ref={expRef}
-          onScroll={handleExpScroll}
-          className="flex gap-4 overflow-x-auto pb-3 -mx-6 px-6 scrollbar-hide"
-        >
-          {experience.map(e => (
-            <div key={e.company} className="min-w-[290px] max-w-[290px] border border-orange-200 rounded-xl p-5 bg-orange-50 shadow-sm shrink-0">
-              <h4 className="font-semibold text-gray-900 text-base mb-0.5">{e.company}</h4>
-              <p className="text-sky-500 text-sm mb-0.5">{e.role}</p>
-              <p className="text-sm text-gray-400 mb-3">{e.period}</p>
-              <ul className="flex flex-col gap-2">
-                {e.points.map((p, i) => (
-                  <li key={i} className="text-gray-500 text-sm flex gap-2 leading-relaxed">
-                    <span className="text-orange-400 shrink-0">–</span>{p}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-center gap-2 mt-4">
-          {experience.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollToExp(i)}
-              className={`rounded-full transition-all duration-200 ${
-                activeExp === i ? 'w-5 h-2 bg-orange-500' : 'w-2 h-2 bg-gray-300 hover:bg-gray-400'
-              }`}
-            />
-          ))}
-        </div>
-      </section>
+        {/* RIGHT: about + skills + experience */}
+        <div>
+          <p className="text-blue-600 text-sm tracking-widest uppercase mb-1">Background</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">About Me</h2>
+          <p className="text-gray-500 mb-10 leading-relaxed text-base md:text-lg">
+            BTech from Christ University, currently pursuing MTech at BITS Pilani. I specialize in
+            backend microservices and Gen AI systems, with hands-on experience building production
+            systems at SAP Labs.
+          </p>
 
-      {/* Projects */}
-      <section id="projects" className="border-t border-blue-100 max-w-3xl mx-auto px-6 py-12">
-        <p className="text-orange-500 text-sm tracking-widest uppercase mb-1">Work</p>
-        <h2 className="text-3xl font-bold mb-2 text-gray-900">Projects</h2>
-        <p className="text-gray-400 text-sm mb-8">Click a card to cycle. Use the GitHub button to open the project.</p>
-
-        <div className="flex justify-center">
-          <div className="relative h-[440px] w-72">
-            {deck.map((p, i) => (
-              <div
-                key={p.name}
-                className="absolute w-72 border border-orange-200 rounded-2xl p-6 bg-orange-50 shadow-md transition-all duration-300 cursor-pointer"
-                style={{
-                  top: `${i * 12}px`,
-                  left: `${i * 10}px`,
-                  zIndex: deck.length - i,
-                  opacity: i > 1 ? 0 : 1,
-                }}
-                onClick={sendToBack}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="text-orange-500 text-sm font-mono">0{projects.indexOf(p) + 1}</span>
-                  <div className="h-px flex-1 bg-blue-100" />
-                  {i === 0 && (
-                    <a
-                      href={p.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={e => e.stopPropagation()}
-                      className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-700 transition"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-                      </svg>
-                      GitHub
-                    </a>
-                  )}
-                </div>
-                <h3 className="text-base font-bold text-gray-900 mb-2 leading-snug">{p.name}</h3>
-                <p className="text-gray-500 leading-relaxed mb-4 text-sm">{p.description}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {p.stack.map(tech => (
-                    <span key={tech} className="bg-sky-50 text-sky-600 text-xs px-2.5 py-1 rounded-full border border-sky-200">
-                      {tech}
+          <h3 className="text-base font-semibold mb-4 text-gray-800 uppercase tracking-wider">Skills</h3>
+          <div className="flex flex-col gap-4 mb-14">
+            {skills.map(s => (
+              <div key={s.category}>
+                <p className="text-gray-400 text-sm mb-1.5">{s.category}</p>
+                <div className="flex flex-wrap gap-2">
+                  {s.items.split(', ').map(item => (
+                    <span key={item} className="bg-blue-50 text-blue-700 text-sm px-3 py-1 rounded-full border border-blue-100">
+                      {item}
                     </span>
                   ))}
                 </div>
               </div>
             ))}
           </div>
+
+          <h3 id="experience" className="text-base font-semibold mb-6 text-gray-800 uppercase tracking-wider scroll-mt-24">
+            Experience
+          </h3>
+          <ol className="relative border-l-3 border-blue-500 ml-2">
+            {experience.map((e, i) => (
+              <li key={e.company} className="ml-8 pb-10 last:pb-0 relative">
+                <span
+                  className={`absolute -left-[41px] top-1.5 w-4 h-4 rounded-full border-4 border-blue-600 ${i === 0 ? 'bg-blue-600' : 'bg-white'
+                    }`}
+                />
+                <h4 className="font-semibold text-gray-900 text-lg">{e.company}</h4>
+                <p className="text-blue-600 text-sm font-medium">{e.role}</p>
+                <p className="text-sm text-gray-400 mb-3">{e.period}</p>
+                <ul className="flex flex-col gap-2 mb-4">
+                  {e.points.map((p, j) => (
+                    <li key={j} className="text-gray-500 text-sm flex gap-2 leading-relaxed">
+                      <span className="text-blue-400 shrink-0">–</span>{p}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap gap-1.5">
+                  {e.skills.map(sk => (
+                    <span key={sk} className="bg-white text-gray-600 text-xs px-2.5 py-1 rounded-full border border-gray-200">
+                      {sk}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
+      </section>
+
+      {/* Projects */}
+      <section
+        id="projects"
+        className="border-t border-blue-100 max-w-6xl mx-auto px-6 md:px-10 py-16"
+      >
+        <p className="text-blue-600 text-sm tracking-widest uppercase mb-1">Featured work</p>
+        <h2 className="text-3xl md:text-4xl font-bold mb-10 text-gray-900">
+          XFLOW: explainable workflow decisions
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
+          {/* LEFT: the story */}
+          <div>
+            {/* Question bubble */}
+            <div className="bg-blue-50 border border-blue-100 rounded-2xl rounded-bl-sm px-5 py-4 mb-6 max-w-sm">
+              <p className="text-xs text-blue-400 mb-1">An employee asks</p>
+              <p className="text-gray-900 font-medium text-lg">“Why was my request rejected?”</p>
+            </div>
+
+            <p className="text-gray-500 leading-relaxed mb-4">
+              Enterprise approval systems are good at saying <b className="text-gray-800">yes</b> or{' '}
+              <b className="text-gray-800">no</b>, and bad at saying <i>why</i>. People are left guessing,
+              and reviewers dig through policy documents by hand.
+            </p>
+            <p className="text-gray-500 leading-relaxed mb-6">
+              I built an autonomous agent that answers that question. It reasons over live transaction
+              data and a vector-indexed policy corpus, then explains the decision in plain language.
+            </p>
+
+            <div className="rounded-xl border border-blue-100 p-4 mb-6">
+              <p className="text-sm text-gray-400 mb-1">The result</p>
+              <p className="text-gray-900 font-medium">
+                Outperforms a baseline RAG pipeline across all RAGAS metrics.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-1.5 mb-6">
+              {['LangGraph', 'LangChain', 'ChromaDB', 'FastAPI', 'Streamlit', 'Groq'].map(t => (
+                <span key={t} className="bg-white text-blue-700 text-xs px-2.5 py-1 rounded-full border border-blue-100">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <a
+              href="https://github.com/Keerthana-Sen"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-500 transition font-medium"
+            >
+              View XFLOW on GitHub
+            </a>
+          </div>
+
+          {/* RIGHT: how it answers */}
+          <div className="bg-white border border-blue-100 rounded-3xl p-6 shadow-sm">
+            <p className="text-sm text-gray-400 mb-4">How XFLOW answers</p>
+            <ol className="flex flex-col gap-3 mb-5">
+              {xflowSteps.map((s, i) => (
+                <li
+                  key={s.label}
+                  className={`flex gap-3 rounded-xl p-3 transition-all duration-500 ${i <= step ? 'opacity-100 bg-blue-50' : 'opacity-30'
+                    }`}
+                >
+                  <span className="w-7 h-7 shrink-0 rounded-full bg-blue-600 text-white text-sm flex items-center justify-center">
+                    {i + 1}
+                  </span>
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">{s.label}</p>
+                    <p className="text-gray-500 text-sm leading-relaxed">{s.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <button
+              onClick={() => setStep(s => (s + 1) % xflowSteps.length)}
+              className="text-sm text-blue-600 font-medium hover:underline"
+            >
+              {step === xflowSteps.length - 1 ? 'Start over' : 'Next step →'}
+            </button>
+          </div>
+        </div>
+
+        <p className="mt-12 text-gray-500">
+          Also built: OpenEvent (event platform on 6 microservices) and a Weather App with a Jenkins CI/CD
+          pipeline.{' '}
+          <a
+            href="https://github.com/Keerthana-Sen"
+            target="_blank"
+            rel="noreferrer"
+            className="text-blue-600 font-medium hover:underline"
+          >
+            See all on GitHub →
+          </a>
+        </p>
       </section>
 
       {/* Contact */}
       <section id="contact" className="border-t border-blue-100 max-w-3xl mx-auto px-6 py-12">
-        <p className="text-orange-500 text-sm tracking-widest uppercase mb-1">Get in touch</p>
+        <p className="text-blue-500 text-sm tracking-widest uppercase mb-1">Get in touch</p>
         <h2 className="text-3xl font-bold mb-2 text-gray-900">Contact</h2>
         <p className="text-gray-500 text-base mb-7">Feel free to reach out.</p>
         <div className="flex gap-8 flex-wrap">
@@ -277,7 +342,7 @@ export default function Portfolio() {
               rel="noreferrer"
               className="flex items-center gap-2 text-sky-500 hover:text-sky-600 transition"
             >
-              <span className="text-orange-400">{l.icon}</span>
+              <span className="text-blue-400">{l.icon}</span>
               <span className="text-base">{l.value}</span>
             </a>
           ))}

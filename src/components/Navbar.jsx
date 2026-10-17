@@ -8,7 +8,7 @@ export default function Navbar() {
         <a href="#projects" className="text-gray-500 hover:text-gray-900 transition text-sm">Projects</a>
         <a href="#contact" className="text-gray-500 hover:text-gray-900 transition text-sm">Contact</a>
         <a href="/login">
-          <button className="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-orange-400 transition">
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-400 transition">
             Login
           </button>
         </a>
