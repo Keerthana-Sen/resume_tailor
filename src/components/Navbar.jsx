@@ -1,18 +1,13 @@
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 w-full bg-blue-50 border-b border-blue-100 px-8 py-4 flex items-center justify-between z-10 shadow-sm">
-      <a href="#home" className="font-bold text-xl text-gray-900">Keerthana Sen</a>
-      <div className="flex gap-8 items-center">
-        <a href="#home" className="text-gray-500 hover:text-gray-900 transition text-sm">Home</a>
-        <a href="#about" className="text-gray-500 hover:text-gray-900 transition text-sm">About</a>
-        <a href="#projects" className="text-gray-500 hover:text-gray-900 transition text-sm">Projects</a>
-        <a href="#contact" className="text-gray-500 hover:text-gray-900 transition text-sm">Contact</a>
-        <a href="/login">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-400 transition">
-            Login
-          </button>
-        </a>
-      </div>
-    </nav>
+    <nav className="bg-navy px-6 md:px-12 py-4 flex items-center justify-between">
+  <span className="text-butter font-bold text-xl">Keerthana Sen</span>
+  <div className="flex items-center gap-2">
+    <a href="#home" className="text-butter px-3.5 py-2 rounded-lg transition-colors hover:bg-maroon">Home</a>
+    <a href="#about" className="text-butter px-3.5 py-2 rounded-lg transition-colors hover:bg-maroon">About</a>
+    <a href="#projects" className="text-butter px-3.5 py-2 rounded-lg transition-colors hover:bg-maroon">Projects</a>
+    <a href="#contact" className="text-butter px-3.5 py-2 rounded-lg transition-colors hover:bg-maroon">Contact</a>
+  </div>
+</nav>
   )
 }

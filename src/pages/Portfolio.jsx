@@ -151,9 +151,9 @@ export default function Portfolio() {
 
         <div className="order-1 md:order-2 flex justify-center md:justify-end">
           <img
-            src="/only_me.png"
+            src="/only_me2.png"
             alt="Keerthana Sen"
-            className="w-60 h-60 md:w-[35rem] md:h-[35rem] rounded-full object-cover"
+            className="w-40 h-40 md:w-[25rem] md:h-[25rem] rounded-full object-cover"
             onError={e => { e.target.style.display = 'none' }}
           />
         </div>

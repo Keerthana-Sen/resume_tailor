@@ -5,19 +5,36 @@ html {
   scroll-behavior: smooth;
 }
 
+@theme {
+  --color-butter: #FFE98A;
+  --color-butter-soft: #f9f1c8;
+  --color-navy: #14213D;
+  --color-maroon: #7A1F2B;
+}
+
+:root {
+  --butter: #FFE98A;
+  --butter-soft: #f9f1c8;
+  --navy: #14213D;
+  --maroon: #7A1F2B;
+}
+
 body {
-  background-color: #f7f8f9;
-  color: #111827;
-  font-family: 'MedievalSharp', sans-serif;
-  font-size: 18px;
+  background: var(--butter-soft);
+  color: var(--navy);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--maroon);
 }
 
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-
-
